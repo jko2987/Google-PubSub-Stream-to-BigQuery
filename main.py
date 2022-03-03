@@ -28,23 +28,23 @@ def record_event_to_bq(event, context):
   print(str(msg_data))
 
   # populate test table
-  rows_to_insert_test = [{
+  rows_to_insert = [{
     "Column1-BigQuery": msg_data["Column1-PubSub-message"],
     "Column2-BigQuery": msg_data["Column2-PubSub-message"],
     "Column3-BigQuery": msg_data["Column3-PubSub-message"],
     "etc-BigQuery": msg_data["etc-PubSub-message"],
   }]
 
-  table_id_test = "your-table-name"
+  table_id = "your-table-name"
 
   # attempt insert of data into BigQuery
-  client_test = bigquery.Client()
-  table_test = client_test.get_table(dataset_id + "." + table_id_test)
-  errors_test = client_test.insert_rows(table_test, rows_to_insert_test)
+  client = bigquery.Client()
+  table = client.get_table(dataset_id + "." + table_id)
+  errors = client.insert_rows(table, rows_to_insert)
 
-  if errors_test == []:
+  if errors == []:
     # no errors! success, do something
     print("success")
   else:
     # errors!
-    print(errors_test)
+    print(errors)
